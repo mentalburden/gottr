@@ -140,6 +140,27 @@ Uh oh... Someone didnt protect their API very well.
 }
 ```
 
+### Example [aux][post] JSON ###
+```json
+          "######": {
+            "acl": {
+              "_t": "acl"
+            },
+            "txt": "blah blah blah buncha junk",
+            "ttl": "yuck",
+            "previmg": "https://no.s8/6/J/g/n/9/Jgn9b.qR4e.jpg",
+            "prevsrc": "https://noway.com/vjjhcz-trump-big-tech-is-acting-as-an-arm-of-the-government-democrat-party.html?mref=23gga&mc=8uxj1",
+            "dsc": "yuck knows what's going on, and he's fighting against it.",
+            "htgs": null,
+            "utgs": null,
+            "_t": "post",
+            "uid": "somejerk",
+            "cdate": 1625677480590,
+            "udate": 1625677480590,
+            "_id": "######"
+          }
+```          
+
 
 # Be nice! Dont do mean or destructive things with this info. POC only, for educational, instructional, and entertainment purposes only. Do no harm. #
     
