@@ -142,23 +142,35 @@ Uh oh... Someone didnt protect their API very well.
 
 ### Example [aux][post] JSON ###
 ```json
-          "######": {
-            "acl": {
-              "_t": "acl"
-            },
-            "txt": "blah blah blah buncha junk",
-            "ttl": "yuck",
-            "previmg": "https://no.s8/6/J/g/n/9/Jgn9b.qR4e.jpg",
-            "prevsrc": "https://noway.com/vjjhcz-trump-big-tech-is-acting-as-an-arm-of-the-government-democrat-party.html?mref=23gga&mc=8uxj1",
-            "dsc": "yuck knows what's going on, and he's fighting against it.",
-            "htgs": null,
-            "utgs": null,
-            "_t": "post",
-            "uid": "somejerk",
-            "cdate": 1625677480590,
-            "udate": 1625677480590,
-            "_id": "######"
-          }
+"######": {
+          "acl": {
+            "pub": 4
+          },
+          "vis": "p",
+          "txt": "buncha stupid crap some dumdumd said",
+          "vid_wid": 1875,
+          "vid_hgt": 2343,
+          "imgs": [
+            "group20/getter/2021/07/07/17/352e93f7-afae-0c75-d633-85cde48a8d95/noway.jpg"
+          ],
+          "meta": [
+            {
+              "wid": null,
+              "hgt": null,
+              "meta": {
+                "heads": null
+              }
+            }
+          ],
+          "main": "group20/getter/2021/07/07/17/352e93f7-afae-0c75-d633-85cde48a8d95/noway.jpg",
+          "htgs": null,
+          "utgs": null,
+          "_t": "post",
+          "uid": "nra",
+          "cdate": 1625677743253,
+          "udate": 1625677743253,
+          "_id": "######"
+        }
 ```          
 
 
