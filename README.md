@@ -12,10 +12,17 @@ Uh oh... Someone didnt protect their API very well.
 5. Built username lists for 13 accounts with more than 500 followers. Found that service is only incrementing the total followers number. Spot checked individual username list count to displayed follower count is not accurate (probably a lazy redis HINCRBY). Tarball is here: [followers by top usernames](http://mentalburden.com/payloads/followers-by-username.tar.gz)
 6. Unique username list was built from the followers of the 13 accounts above. List is in the repo, tarball is here: [unique usernames](http://mentalburden.com/payloads/unique-usernames.tar.gz)
 7. For each username: check if length of returnjson[request][data][list] is >= 1, if true write to text files organized by first character of each username.
-8. Scrape "media.[target].com" for paths found in the resultant lists from the username check above. Think ill need to get an s3 spun up for that... Or maybe ill just base64 them all and cram them into a burner firebase rtdb. Hmm...
-
-
-
+9. For each firstchar_username_list: pull profile json from 
+    * "api.[target].com/u/user/" + thisuser + "/posts?offset=0&max=2000&dir=fwd&incl=posts%7Cstats%7Cuserinfo%7Cshared%7Cliked&fp=f_ul.
+    * Which results in user_profile json:
+    * and the following is extracted:
+    * last 2000 posts
+    * last 2000 replys
+    * img/path/href for each post and reply
+    * all followed, followers, blocked, and muted
+    * other "useful" information
+    * NOTE: At commit date, 4.72gb of data has been scraped which represents the posts and replys of 210621 unique "known human" usernames associated with [target].com
+10. {yada, yada, yada}
 
 ### Example User profile json ###
 ```json
