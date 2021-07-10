@@ -4,6 +4,14 @@ Uh oh... Someone didnt protect their API very well.
 
 ![](https://i.imgur.com/BQxUoNC.gif)
 
+
+<BR><BR><BR><BR>
+   
+# Be nice! Please do not do mean or destructive things with this info. For educational, instructional, and entertainment purposes only. Do no harm. #
+
+<BR><BR><BR><BR>
+
+
 ## Road Notes: ##
 1. "api.[target].com" is completely plaintext with no auth. (list of endpoints here later)
 2. "media.[target].com" is also completely plaintext and requires no auth. The paths for all media can be scraped from user post and reply jsons. 
@@ -21,10 +29,42 @@ Uh oh... Someone didnt protect their API very well.
     * img/path/href for each post and reply
     * all followed, followers, blocked, and muted
     * other "useful" information
-    * NOTE: At commit date, 4.72gb of data has been scraped which represents the posts and replys of 210621 unique "known human" usernames associated with [target].com
-10. {yada, yada, yada}
+    * NOTE: At commit date, 7.2gb of profile data has been scraped which represents the posts and replys of 210621 unique "known human" usernames associated with [target].com
+10. Create clean jsons for each username, organized into files by first character of username, with only useful osint from the above user profile records (raw profile jsons are choc-fulla junk):
+   * For each username, generate a nested dict which contains: 
+```json
+{
+"username": {"placeholder_dict"}, 
+   "avatar_image": "media.[target].com/path", 
+   "bg_image": "media.[target].com/path",
+   "following": ["list","of","usernames"], 
+   "posts": {
+      "postid": {
+         "images": [],
+         "post_text": "str",
+         "title": "str",
+         "description": "str",
+         "haslinks": true,
+         "links": ["haslinks_true_if_re.findall(url_regex, post_text)"],
+         "ctime": "Post_Creation_Epoch",
+         "preview_src": "external_links(like twitter)",
+         }
+       }
+     }
+   }
+}
+```
+   * Dataset for above is here: [Clean User Profile Jsons](http://mentalburden.com/payloads/gettr-userprofile-jsons.tar.gz)
+11. Next up is scraping media.[target].com for avatar and profile bg images per user, shrink images to standardized resolution (if varied), then base64 into dict{username:{bgimg: bgimg_base64, avimg: avimg_base64}}
 
-### Example User profile json ###
+
+
+
+
+
+
+
+### Example support account profile json for reference ###
 ```json
 {
   "a00001": {},
@@ -146,40 +186,3 @@ Uh oh... Someone didnt protect their API very well.
   }
 }
 ```
-
-### Example [aux][post] JSON ###
-```json
-"######": {
-          "acl": {
-            "pub": 4
-          },
-          "vis": "p",
-          "txt": "buncha stupid crap some dumdumd said",
-          "vid_wid": 1875,
-          "vid_hgt": 2343,
-          "imgs": [
-            "group20/getter/2021/07/07/17/352e93f7-afae-0c75-d633-85cde48a8d95/noway.jpg"
-          ],
-          "meta": [
-            {
-              "wid": null,
-              "hgt": null,
-              "meta": {
-                "heads": null
-              }
-            }
-          ],
-          "main": "group20/getter/2021/07/07/17/352e93f7-afae-0c75-d633-85cde48a8d95/noway.jpg",
-          "htgs": null,
-          "utgs": null,
-          "_t": "post",
-          "uid": "nra",
-          "cdate": 1625677743253,
-          "udate": 1625677743253,
-          "_id": "######"
-        }
-```          
-
-
-# Be nice! Dont do mean or destructive things with this info. POC only, for educational, instructional, and entertainment purposes only. Do no harm. #
-    
