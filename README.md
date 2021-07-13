@@ -60,7 +60,7 @@ Uh oh... Someone didnt protect their API very well.
 ```
    * For a link to the dataset above email: gottr at mentalburden dot com
 11. Scraped 15gb of user profile pictures and profile background images from "media.[target].com". Had to ensure "_400x400.[extension]" was added to profile pic paths and "500x0.[extension]" was added to bgimages. Without the extension change the path will supply the full resolution (sometimes extremely hi-res/large files). Each of the 210621 username has {'username': {avimg: 'base64'ed profile pic, bgimg: 'base64'ed bg pic"}}, with placeholder values for profiles with no or only a single picture. For a link to the raw [target] user profile pics tarball, email: gottr at mentalburden dot com
-12. Next up is building keras/jupyter VM with a passthru gpu, building an simple imagenet classifer pipeline, and running each usernames images in the above dataset to produce a final profile images record like: {'username': {}, avatar: {img: b64avimg, classes:[list,of,classifications]}, bgimg: {img: b64bgimg, imgclasses:[list,of,classifications]}}
+12. Image classifier is built and working as expected for profile pics. Profile backgrounds will need to have the image padded using a PIL paste over. Doing the image padding on the background images so there arent aspect ratio issues during classification (resize skew will destroy imagenet). Need to spin up tesla box in GCP to handle the classification job against a block store containing the above profile pic jsons. Classifier code is under image_classifier.py.
 13. Cram the profile data and image data into a firebase rtdb, build a simple search webUI, yada, yada, yada
 
 
