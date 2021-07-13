@@ -11,14 +11,18 @@ Uh oh... Someone didnt protect their API very well.
 
 <BR><BR><BR><BR>
 
+## BLUF ##
+   * 210621 "human verified" accounts on [target] were scraped, resulting in 7.2GB of raw profile jsons. This data was parsed for useful info, resulting in 2.4GB of user profile data sorted by first character of the username (480mb tarballed).
+   * Each of the 210621 accounts was checked for a profile picture and profile background image, if either/both exist they were base64'ed and added to a seperate record organized by first character of the username. The raw profile and background image dataset is 15.3GB (12GB tarballed).
+   * ML classification of each image is ongoing, primarily focused on classifying any images that contain faces, flags, text, and weapons. 
 
 ## Road Notes: ##
-1. "api.[target].com" is completely plaintext with no auth. (list of endpoints here later)
+1. "api.[target].com" is completely plaintext with no auth.
 2. "media.[target].com" is also completely plaintext and requires no auth. The paths for all media can be scraped from user post and reply jsons. 
 3. Didnt find a limter for api calls, but safe bet is >0.8sec.
 4. Individual posts are stored as a 6 char alphanum under the path "[target].com/post/[6char-hash]. Bruting this path isnt very effective and would probably pop protections (if any exist, lol prob not). Spot checking some random hashes found more than 2/3rd's were empty, so its more efficient to crawl by individual user.
 5. Built username lists for 13 accounts with more than 500 followers. Found that service is only incrementing the total followers number. Spot checked individual username list count to displayed follower count is not accurate (probably a lazy redis HINCRBY). Tarball is here: [followers by top usernames](http://mentalburden.com/payloads/followers-by-username.tar.gz)
-6. Unique username list was built from the followers of the 13 accounts above. List is in the repo, tarball is here: [unique usernames](http://mentalburden.com/payloads/unique-usernames.tar.gz)
+6. Unique username list was built from the followers of the 13 accounts above. Tarball is here: [unique usernames](http://mentalburden.com/payloads/unique-usernames.tar.gz)
 7. For each username: check if length of returnjson[request][data][list] is >= 1, if true write to text files organized by first character of each username.
 9. For each firstchar_username_list: pull profile json from 
     * "api.[target].com/u/user/" + thisuser + "/posts?offset=0&max=2000&dir=fwd&incl=posts%7Cstats%7Cuserinfo%7Cshared%7Cliked&fp=f_ul.
@@ -29,7 +33,7 @@ Uh oh... Someone didnt protect their API very well.
     * img/path/href for each post and reply
     * all followed, followers, blocked, and muted
     * other "useful" information
-    * NOTE: At commit date, 7.2gb of profile data has been scraped which represents the posts and replys of 210621 unique "known human" usernames associated with [target].com
+    * NOTE: 7.2gb of profile data has been scraped which represents the posts and replys of 210621 unique "known human" usernames associated with [target].com
 10. Create clean jsons for each username, organized into files by first character of username, with only useful osint from the above user profile records (raw profile jsons are choc-fulla junk):
    * For each username, generate a nested dict which contains: 
 ```json
@@ -54,8 +58,10 @@ Uh oh... Someone didnt protect their API very well.
    }
 }
 ```
-   * Dataset for above is here: [Clean User Profile Jsons](http://mentalburden.com/payloads/gettr-userprofile-jsons.tar.gz)
-11. Next up is scraping media.[target].com for avatar and profile bg images per user, shrink images to standardized resolution (if varied), then base64 into dict{username:{bgimg: bgimg_base64, avimg: avimg_base64}}
+   * For a link to the dataset above email: gottr at mentalburden dot com
+11. Scraped 15gb of user profile pictures and profile background images from "media.[target].com". Had to ensure "_400x400.[extension]" was added to profile pic paths and "500x0.[extension]" was added to bgimages. Without the extension change the path will supply the full resolution (sometimes extremely hi-res/large files). Each of the 210621 username has {'username': {avimg: 'base64'ed profile pic, bgimg: 'base64'ed bg pic"}}, with placeholder values for profiles with no or only a single picture. For a link to the raw [target] user profile pics tarball, email: gottr at mentalburden dot com
+12. Next up is building keras/jupyter VM with a passthru gpu, building an simple imagenet classifer pipeline, and running each usernames images in the above dataset to produce a final profile images record like: {'username': {}, avatar: {img: b64avimg, classes:[list,of,classifications]}, bgimg: {img: b64bgimg, imgclasses:[list,of,classifications]}}
+13. Cram the profile data and image data into a firebase rtdb, build a simple search webUI, yada, yada, yada
 
 
 
